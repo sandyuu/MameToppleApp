@@ -82,7 +82,8 @@ const signalR = require("@microsoft/signalr");
 
 function signalRConnection(vm) {
     var connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://localhost:44324/mamehub", {
+        .withUrl("https://mametopple.azurewebsites.net/mamehub", {
+            // .withUrl("https://localhost:44324/mamehub", {
             skipNegotiation: true,
             transport: signalR.HttpTransportType.WebSockets,
         })
