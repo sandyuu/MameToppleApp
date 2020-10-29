@@ -42,7 +42,7 @@ export default {
         var vm = this;
         setTimeout(function () {
             vm.GetMissionDolls();
-        }, 1000);
+        }, 2000);
     },
     mounted() {
         // var vm = this;

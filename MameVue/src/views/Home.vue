@@ -3,7 +3,6 @@
         <div class="title">MAME TOPPLE</div>
         <div class="userName">Hello,{{ userName }}</div>
         <div class="content text-center">
-            <!-- <a href="./Game"> -->
                 <button
                     type="button"
                     class="btn btn-primary start"
@@ -12,7 +11,6 @@
                 >
                     START
                 </button>
-                <!-- </a> -->
         </div>
         <div>
             <b-modal
@@ -151,6 +149,7 @@ export default {
         handleLoginButtonClick() {
             this.login();
         },
+
         async login() {
             var payload = {
                 account: this.account,
@@ -173,7 +172,6 @@ export default {
                 console.log(getUserNameRes.data); //.data是取帳號的值
                 this.userName = getUserNameRes.data;
             } catch (exception) {
-                console.log("你這個大白癡");
                 console.log(exception);
             }
         },

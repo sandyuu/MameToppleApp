@@ -1,3 +1,4 @@
-﻿module.exports = {
-    outputDir: '../wwwroot'
+module.exports = {
+    // assetsDir: './',
+    publicPath: './',
 };
