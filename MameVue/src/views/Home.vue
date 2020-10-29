@@ -3,15 +3,16 @@
         <div class="title">MAME TOPPLE</div>
         <div class="userName">Hello,{{ userName }}</div>
         <div class="content text-center">
-            <a href="./Game"
-                ><button
+            <!-- <a href="./Game"> -->
+                <button
                     type="button"
                     class="btn btn-primary start"
                     v-show="toggle"
+                    @click="start"
                 >
                     START
-                </button></a
-            >
+                </button>
+                <!-- </a> -->
         </div>
         <div>
             <b-modal
@@ -161,6 +162,7 @@ export default {
                 console.log("loginRes");
                 console.log(loginRes);
                 sessionStorage["token"] = loginRes; //用session儲存token值
+                sessionStorage["account"]= this.account
 
                 this.toggle = !this.toggle; //開始按鈕的顯示//如果登入成功開始按鈕就會顯示
                 this.$refs["my-modal"].hide();
@@ -180,7 +182,7 @@ export default {
                 account: this.registeraccount,
                 password: this.registerpassword,
                 nickname: this.registernickname,
-                avatar: "avatar123",
+                avatar: "https://i.imgur.com/M1EAtMs.png",
                 win: 0,
                 lose: 0,
             };
@@ -191,6 +193,9 @@ export default {
         showModal() {
             this.$refs["my-modal"].show();
         },
+        start() {
+      this.$router.push("Waiting");
+      },
         // hideModal() {
         //   this.$refs["my-modal"].hide();
         // },
