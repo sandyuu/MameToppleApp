@@ -38,21 +38,26 @@ function getDolls(dolls) {
 
 export default {
     props: ["MissionDolls", "signalRConnection"],
+    watch: {
+        isConnected() {
+            console.log("成功");
+            if (this.isConnected) {
+                this.GetMissionDolls();
+            }
+        },
+    },
+    computed: {
+        isConnected() {
+            // if (this.signalRConnection.constructor.name === "HubConnection") {
+            if (this.signalRConnection.connectionState == "Connected") {
+                console.log(this.signalRConnection);
+                return true;
+            }
+            return false;
+        },
+    },
     created() {
-        var vm = this;
-        setTimeout(function () {
-            vm.GetMissionDolls();
-        }, 2000);
-    },
-    mounted() {
-        // var vm = this;
-        // window.onload = function () {
-        //     vm.GetMissionDolls();
-        // };
-        // vm.GetMissionDolls();
-    },
-    updated() {
-        // this.GetMissionDolls();
+        console.log(this.signalRConnection.constructor.name);
     },
 
     data() {

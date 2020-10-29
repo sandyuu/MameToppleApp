@@ -169,6 +169,7 @@ export default {
 
             console.log(`現在使用 ${cardName} 卡片`);
             console.log(this.signalRConnection);
+
             // console.log(`card conn ${this.signalRConnection}`);
             this.signalRConnection.invoke("UseCard", vm.dolls, cardName);
             // this.signalRConnection.off("UseCard", null);
@@ -176,6 +177,7 @@ export default {
             this.signalRConnection.on("UseCard", function (new_dolls) {
                 if (cardName == "Discard") {
                     _newdolls = new_dolls;
+
                     this.off("UseCard", null);
                     vm.$emit("CardDisDolls", _newdolls, cardName);
                 }
@@ -202,7 +204,6 @@ export default {
     },
 };
 </script>
-
 
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");

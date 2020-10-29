@@ -1,9 +1,5 @@
 <template>
     <div class="location-bottom d-flex">
-        <!-- <div class="mame-card-wrapper btn" v-on:click="GetMissionDolls()">
-            {{ signalRConnection }}
-        </div> -->
-
         <div class="cards-panel">
             <MissionCard
                 v-on:GetMissionDolls="SetMissionDolls"
@@ -66,7 +62,6 @@ export default {
     },
     components: {
         MissionCard,
-        // HelloWorld
         MameCards,
     },
     methods: {

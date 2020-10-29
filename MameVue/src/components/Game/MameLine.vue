@@ -5,12 +5,6 @@
             v-bind:key="item.id"
             class="w-100 h-100"
         >
-            <!-- <div
-                                    class="item w-100 h-100"
-                                    v-for="(item, index) in items"
-                                    :key="index"
-                                > -->
-
             <div class="mame-tiki" v-on:click="selectDoll(item)">
                 <div
                     class="mame-tiki-img w-100 h-100"
