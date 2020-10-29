@@ -30,6 +30,24 @@ export class LoginPageService {
         return data;
     }
 
+    //取得會員所有資料
+    static async getUserAllInfo() {
+        
+        const token = sessionStorage.getItem('token');
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+        const emaildata = await axios.get(
+            CONFIG.API_URL + "/api/Token/GetUserName", 
+            config
+        );
+
+        const data = await axios.get(
+            CONFIG.API_URL + `/api/User/${emaildata.data}`, 
+            config
+        );
+        return data;
+    }
 
     // //GET 範例
     // static async getAccountInfo() {
