@@ -1,4 +1,4 @@
 module.exports = {
+    // assetsDir: './',
     publicPath: './',
-    outputDir: 'dist',
 };

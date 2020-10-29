@@ -3,15 +3,14 @@
         <div class="title">MAME TOPPLE</div>
         <div class="userName">Hello,{{ userName }}</div>
         <div class="content text-center">
-            <a href="./Game"
-                ><button
-                    type="button"
-                    class="btn btn-primary start"
-                    v-show="toggle"
-                >
-                    START
-                </button></a
+            <button
+                type="button"
+                class="btn btn-primary start"
+                v-show="toggle"
+                v-on:click="RouterTo_Game"
             >
+                START
+            </button>
         </div>
         <div>
             <b-modal
@@ -150,6 +149,7 @@ export default {
         handleLoginButtonClick() {
             this.login();
         },
+
         async login() {
             var payload = {
                 account: this.account,
@@ -171,7 +171,6 @@ export default {
                 console.log(getUserNameRes.data); //.data是取帳號的值
                 this.userName = getUserNameRes.data;
             } catch (exception) {
-                console.log("你這個大白癡");
                 console.log(exception);
             }
         },
@@ -180,7 +179,7 @@ export default {
                 account: this.registeraccount,
                 password: this.registerpassword,
                 nickname: this.registernickname,
-                avatar: "avatar123",
+                avatar: "https://i.imgur.com/M1EAtMs.png",
                 win: 0,
                 lose: 0,
             };
@@ -190,6 +189,9 @@ export default {
         },
         showModal() {
             this.$refs["my-modal"].show();
+        },
+        RouterTo_Game: function () {
+            this.$router.push("Game");
         },
         // hideModal() {
         //   this.$refs["my-modal"].hide();
