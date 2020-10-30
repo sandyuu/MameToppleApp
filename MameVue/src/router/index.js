@@ -2,7 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Game from '../views/Game.vue';
-import Waiting from '../views/Waiting.vue'
+import Waiting from '../views/Waiting.vue';
+import Ranking from '../views/Ranking.vue';
 
 Vue.use(VueRouter);
 
@@ -18,6 +19,11 @@ const routes = [
         component: Game,
     },
     {
+        path: '/ranking',
+        name: 'Ranking',
+        component: Ranking,
+    },
+    {
         path: '/about',
         name: 'About',
         // route level code-splitting
@@ -28,8 +34,8 @@ const routes = [
     {
         path: '/Waiting',
         name: 'Waiting',
-        component: Waiting
-      },
+        component: Waiting,
+    },
 ];
 
 const router = new VueRouter({
