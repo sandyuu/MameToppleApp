@@ -1,24 +1,14 @@
 <template>
-    <!-- <div class="test">{{ cards }}</div> -->
-    <div class="mame-card">
-        <div class="w-100 h-100">
-            <div class="mame-card-wrapper">
-                <div class="mission-temp is-active"></div>
-                <div
-                    class="mame-card-side mame-card-side-back mission-card-back"
-                ></div>
-            </div>
-        </div>
-        <!-- <div class="mission-card">{{ MissionDolls }}</div> -->
+    <div class="w-100 h-100 d-flex">
         <div v-for="item in cards" v-bind:key="item.id" class="w-100 h-100">
-            <div class="mame-card-wrapper" v-on:click="selectCard(item)">
+            <div class="mame-card" v-on:click="selectCard(item)">
                 <div
-                    class="mame-card-side is-active"
+                    class="card-style card-front is-active"
                     v-bind:style="{
                         'background-image': 'url(' + item.image + ')',
                     }"
                 ></div>
-                <div class="mame-card-side mame-card-side-back"></div>
+                <div class="card-style card-back"></div>
             </div>
         </div>
     </div>
@@ -152,111 +142,71 @@ $card-transition-delay-time: 1s;
 }
 
 .mame-card {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    // justify-content: space-between;
-    perspective: 600px;
-    // position: relative;
+    width: 120px;
+    height: 180px;
+    border-radius: 10px;
+    animation: rotate-inverse $card-transition-time $card-transition-delay-time
+        linear both;
+    width: 120px;
+    height: 180px;
     position: absolute;
+    perspective: 75rem;
+    transform-style: preserve-3d;
     bottom: 0;
-    &.is-switched {
-        .mame-card-wrapper {
-            animation: rotate $card-transition-time linear both;
+    // &:hover {
+    // 	.back {
+    // 		transform: rotateY(0deg);
+    // 	}
+    // }
+
+    .card-style {
+        backface-visibility: hidden;
+        transition: transform 0.8s ease;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        border-radius: 10px;
+
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.25);
+        font-family: BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 2rem;
+        color: #fff;
+        text-transform: uppercase;
+        text-align: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        backface-visibility: hidden;
+        overflow: hidden;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .card-front {
+        &.is-active {
+            position: static;
+        }
+        background-image: url("https://sandy.s-ul.eu/YQD9ib2P");
+        // background-image: url("https://bin.jvnv.net/file/NFuNn/Mamegoma_up_1.png");
+        position: absolute;
+        &:hover {
+            position: absolute;
+            border: 1px solid #ffef91;
+            // box-shadow: 0 0 0 5px #ffee8b9d;
+            box-shadow: 0 0 5px 5px #ffee8bbb;
+            filter: drop-shadow(6px 7px 4px rgba(0, 0, 0, 0.3));
+            width: 110%;
+            height: 110%;
+            top: -30px;
         }
     }
 
-    .mame-card-wrapper {
-        width: 120px;
-        height: 180px;
-        transform-style: preserve-3d;
-        animation: rotate-inverse $card-transition-time
-            $card-transition-delay-time linear both;
-        margin-left: 10px;
+    .card-back {
         position: absolute;
-        bottom: 6px;
-        .mame-card-side {
-            backface-visibility: hidden;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
 
-            content: "";
-            display: block;
-
-            border-radius: 10px;
-
-            width: 100%;
-            height: 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            filter: drop-shadow(8px 8px 5px rgba(0, 0, 0, 0.3));
-
-            transition: 0.3s;
-
-            &.is-active {
-                position: static;
-            }
-
-            &:hover {
-                position: absolute;
-
-                border: 1px solid #ffef91;
-                // box-shadow: 0 0 0 5px #ffee8b9d;
-                box-shadow: 0 0 5px 5px #ffee8bbb;
-                filter: drop-shadow(6px 7px 4px rgba(0, 0, 0, 0.3));
-
-                width: 110%;
-                height: 110%;
-                top: -30px;
-            }
-            &:active {
-                border: 1px solid #ff91ff;
-                box-shadow: 0 0 5px 5px #ff91ffbe;
-            }
-        }
-
-        .mame-card-side-back {
-            transform: rotateY(180deg);
-            width: 100%;
-            height: 100%;
-            &:before {
-                content: "";
-                display: block;
-                position: absolute;
-                bottom: 0;
-                background-image: url("../../assets/images/mame_card_back.png");
-                border-radius: 10px;
-
-                width: 100%;
-                height: 100%;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-                filter: drop-shadow(8px 8px 5px rgba(0, 0, 0, 0.3));
-
-                transition: 0.3s;
-            }
-        }
-        .mission-card-back {
-            &:before {
-                background-image: url("../../assets/images/mission_card_back.png");
-            }
-            &:hover {
-                position: absolute;
-
-                border: 0px solid #ffef91;
-                // box-shadow: 0 0 0 5px #ffee8b9d;
-                box-shadow: 0 0 0px 0px #ffee8bbb;
-                filter: drop-shadow(6px 7px 4px rgba(0, 0, 0, 0.3));
-
-                width: 100%;
-                height: 100%;
-                top: 0px;
-            }
-        }
+        transform: rotateY(180deg);
+        background-image: url("https://mamegoma.azurewebsites.net/img/mame_card_back.1d2cf644.png");
     }
 }
 </style>

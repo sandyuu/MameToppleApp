@@ -1,94 +1,85 @@
 <template>
-    <!-- <div class="test">{{ cards }}</div> -->
-    <div class="mame-card">
-        <div class="w-100 h-100">
-            <div class="mame-card-wrapper">
-                <div class="mame-card-side is-active">
-                    <div class="mission-card">
+    <div class="w-100 h-100">
+        <div class="mission-card">
+            <div class="card-style card-front is-active w-100 h-100">
+                <div
+                    v-for="(item, index) in MissionDolls"
+                    v-bind:key="item.id"
+                    class="mission-doll-block"
+                >
+                    <div class="row w-100 h-100">
                         <div
-                            v-for="(item, index) in MissionDolls"
-                            v-bind:key="item.id"
-                            class="mission-doll-block"
+                            class="col-4 col-md-4 p-0 d-flex text-center align-items-center"
                         >
-                            <div class="row w-100 h-100">
-                                <div
-                                    class="col-4 col-md-4 p-0 d-flex text-center align-items-center"
-                                >
+                            <div
+                                class="mission-doll-icon w-100 h-100"
+                                :style="{
+                                    'background-image':
+                                        'url(' + item.image + ')',
+                                }"
+                            ></div>
+                        </div>
+                        <div class="col-8 col-md-8 p-0">
+                            <div class="mission-doll-score-content w-100 h-100">
+                                <div class="mission-doll-name">
+                                    {{ item.name }}
+                                </div>
+                                <div class="mission-doll-score d-flex w-100">
                                     <div
-                                        class="mission-doll-icon w-100 h-100"
+                                        v-if="index == 0"
+                                        class="score-icon w-100"
                                         :style="{
                                             'background-image':
-                                                'url(' + item.image + ')',
+                                                'url(' +
+                                                require('../../assets/images/mission-icons/mission-beans.png') +
+                                                ')',
                                         }"
                                     ></div>
-                                </div>
-                                <div class="col-8 col-md-8 p-0">
                                     <div
-                                        class="mission-doll-score-content w-100 h-100"
+                                        v-if="index == 1"
+                                        class="score-icon w-100"
+                                        :style="{
+                                            'background-image':
+                                                'url(' +
+                                                require('../../assets/images/mission-icons/mission-candy.png') +
+                                                ')',
+                                        }"
+                                    ></div>
+                                    <div
+                                        v-if="index == 2"
+                                        class="score-icon w-100"
+                                        :style="{
+                                            'background-image':
+                                                'url(' +
+                                                require('../../assets/images/mission-icons/mission-squid.png') +
+                                                ')',
+                                        }"
+                                    ></div>
+                                    <div
+                                        v-if="index == 0"
+                                        class="score-point w-100 h-100"
                                     >
-                                        <div class="mission-doll-name">
-                                            {{ item.name }}
-                                        </div>
-                                        <div
-                                            class="mission-doll-score d-flex w-100"
-                                        >
-                                            <div
-                                                v-if="index == 0"
-                                                class="score-icon w-100"
-                                                :style="{
-                                                    'background-image':
-                                                        'url(' +
-                                                        require('../../assets/images/mission-icons/mission-beans.png') +
-                                                        ')',
-                                                }"
-                                            ></div>
-                                            <div
-                                                v-if="index == 1"
-                                                class="score-icon w-100"
-                                                :style="{
-                                                    'background-image':
-                                                        'url(' +
-                                                        require('../../assets/images/mission-icons/mission-candy.png') +
-                                                        ')',
-                                                }"
-                                            ></div>
-                                            <div
-                                                v-if="index == 2"
-                                                class="score-icon w-100"
-                                                :style="{
-                                                    'background-image':
-                                                        'url(' +
-                                                        require('../../assets/images/mission-icons/mission-squid.png') +
-                                                        ')',
-                                                }"
-                                            ></div>
-                                            <div
-                                                v-if="index == 0"
-                                                class="score-point w-100 h-100"
-                                            >
-                                                9pt
-                                            </div>
-                                            <div
-                                                v-if="index == 1"
-                                                class="score-point w-100 h-100"
-                                            >
-                                                5pt
-                                            </div>
-                                            <div
-                                                v-if="index == 2"
-                                                class="score-point w-100 h-100"
-                                            >
-                                                2pt
-                                            </div>
-                                        </div>
+                                        9pt
+                                    </div>
+                                    <div
+                                        v-if="index == 1"
+                                        class="score-point w-100 h-100"
+                                    >
+                                        5pt
+                                    </div>
+                                    <div
+                                        v-if="index == 2"
+                                        class="score-point w-100 h-100"
+                                    >
+                                        2pt
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="mame-card-side mame-card-side-back"></div>
             </div>
+            <div class="card-style card-back"></div>
         </div>
     </div>
 </template>
@@ -176,6 +167,7 @@ export default {
 
 
 <style lang="scss" scoped>
+@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
 $card-transition-time: 1s;
 $card-transition-delay-time: 1s;
 
@@ -203,98 +195,72 @@ $card-transition-delay-time: 1s;
     }
 }
 
-.mame-card {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    perspective: 600px;
-    // position: relative;
+.mission-card {
+    width: 120px;
+    height: 180px;
+    border-radius: 10px;
+    animation: rotate-inverse $card-transition-time $card-transition-delay-time
+        linear both;
+    width: 120px;
+    height: 180px;
     position: absolute;
+    perspective: 75rem;
+    transform-style: preserve-3d;
     bottom: 0;
-    &.is-switched {
-        .mame-card-wrapper {
-            animation: rotate $card-transition-time linear both;
-        }
-    }
-    .mame-card-wrapper {
-        width: 120px;
-        height: 180px;
-        transform-style: preserve-3d;
-        animation: rotate-inverse $card-transition-time
-            $card-transition-delay-time linear both;
-        margin-left: 10px;
+    // &:hover {
+    // 	.back {
+    // 		transform: rotateY(0deg);
+    // 	}
+    // }
+
+    .card-style {
+        backface-visibility: hidden;
+        transition: transform 0.8s ease;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        border-radius: 10px;
+
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.25);
+        font-family: BlinkMacSystemFont, "Segoe UI", sans-serif;
+        // font-size: 2rem;
+        color: rgb(0, 0, 0);
+        text-transform: uppercase;
+        text-align: center;
         position: absolute;
-        bottom: 6px;
-        .mame-card-side {
-            backface-visibility: hidden;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-
-            content: "";
-            display: block;
-
-            border-radius: 10px;
-
-            width: 100%;
-            height: 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            filter: drop-shadow(8px 8px 5px rgba(0, 0, 0, 0.3));
-
-            transition: 0.3s;
-
-            &.is-active {
-                position: static;
-            }
-
-            &:hover {
-                position: absolute;
-
-                border: 1px solid #ffef91;
-                // box-shadow: 0 0 0 5px #ffee8b9d;
-                box-shadow: 0 0 5px 5px #ffee8bbb;
-                filter: drop-shadow(6px 7px 4px rgba(0, 0, 0, 0.3));
-
-                width: 110%;
-                height: 110%;
-                top: -30px;
-            }
-        }
-
-        .mame-card-side-back {
-            transform: rotateY(180deg);
-            width: 100%;
-            height: 100%;
-            &:before {
-                content: "";
-                display: block;
-                position: absolute;
-                bottom: 0;
-                background-image: url("../../assets/images/mame_card_back.png");
-                border-radius: 10px;
-
-                width: 100%;
-                height: 100%;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-                filter: drop-shadow(8px 8px 5px rgba(0, 0, 0, 0.3));
-
-                transition: 0.3s;
-            }
-        }
+        top: 0;
+        left: 0;
+        backface-visibility: hidden;
+        overflow: hidden;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
     }
-    .mission-card {
+    .card-front {
         height: 100%;
         display: flex;
         flex-direction: column;
 
         // height: 100vh;
         padding: 0;
+        &.is-active {
+            position: static;
+        }
+        background-image: url("https://sandy.s-ul.eu/YQD9ib2P");
+        // background-image: url("https://bin.jvnv.net/file/NFuNn/Mamegoma_up_1.png");
+        position: absolute;
+        &:hover {
+            position: absolute;
+            border: 1px solid #ffef91;
+            // box-shadow: 0 0 0 5px #ffee8b9d;
+            box-shadow: 0 0 5px 5px #ffee8bbb;
+            filter: drop-shadow(6px 7px 4px rgba(0, 0, 0, 0.3));
+            width: 110%;
+            height: 110%;
+            top: -30px;
+        }
+
         .mission-doll-block {
             margin: 0;
             width: 100%;
@@ -318,6 +284,7 @@ $card-transition-delay-time: 1s;
                 justify-content: center;
                 .mission-doll-name {
                     font-family: "Luckiest Guy", cursive;
+                    // font-size: ;
                     // font-weight: bold;
                 }
                 .mission-doll-score {
@@ -388,6 +355,13 @@ $card-transition-delay-time: 1s;
                 #9bb2ff
             ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         }
+    }
+
+    .card-back {
+        position: absolute;
+
+        transform: rotateY(180deg);
+        background-image: url("https://mamegoma.azurewebsites.net/img/mame_card_back.1d2cf644.png");
     }
 }
 </style>

@@ -1,19 +1,23 @@
 <template>
     <div class="location-bottom d-flex">
-        <div class="cards-panel">
-            <MissionCard
-                v-on:GetMissionDolls="SetMissionDolls"
-                v-bind:MissionDolls="MissionDolls"
-                v-bind:signalRConnection="signalRConnection"
-            />
-            <MameCards
-                v-bind:cards="cards"
-                v-bind:dolls="dolls"
-                v-bind:MissionDolls="MissionDolls"
-                v-bind:signalRConnection="signalRConnection"
-                v-on:CardDisDolls="DisDolls"
-                v-on:CardChooseDolls="ChooseDolls"
-            />
+        <div class="cards-panel row">
+            <div class="col-2 col-md-2 w-100 h-100">
+                <MissionCard
+                    v-on:GetMissionDolls="SetMissionDolls"
+                    v-bind:MissionDolls="MissionDolls"
+                    v-bind:signalRConnection="signalRConnection"
+                />
+            </div>
+            <div class="col-10 col-md-10 w-100 h-100">
+                <MameCards
+                    v-bind:cards="cards"
+                    v-bind:dolls="dolls"
+                    v-bind:MissionDolls="MissionDolls"
+                    v-bind:signalRConnection="signalRConnection"
+                    v-on:CardDisDolls="DisDolls"
+                    v-on:CardChooseDolls="ChooseDolls"
+                />
+            </div>
         </div>
         <div class="user-avatar"></div>
     </div>
@@ -109,6 +113,7 @@ export default {
     border-radius: 10px;
     width: 100%;
     height: 150px;
+    // display: flex;
 }
 
 .user-avatar {

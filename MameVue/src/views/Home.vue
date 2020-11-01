@@ -83,16 +83,18 @@
                             ></b-row>
                             <b-row class="my-3 mx-3">
                                 <b-form-input
-                                    v-model="registerpassword"
-                                    placeholder="Enter your password"
-                                ></b-form-input
-                            ></b-row>
-                            <b-row class="my-3 mx-3">
-                                <b-form-input
                                     v-model="registernickname"
                                     placeholder="Enter your nickname"
                                 ></b-form-input
                             ></b-row>
+                            <b-row class="my-3 mx-3">
+                                <b-form-input
+                                    type="password"
+                                    v-model="registerpassword"
+                                    placeholder="Enter your password"
+                                ></b-form-input
+                            ></b-row>
+
                             <b-row class="text-center my-3">
                                 <b-col>
                                     <b-button
@@ -206,6 +208,15 @@ export default {
 </script>
 <style scoped >
 @import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap");
+
+* {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
 .title,
 .start {
     font-family: "Comic Neue", cursive;
