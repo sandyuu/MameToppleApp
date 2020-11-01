@@ -1,15 +1,30 @@
 <template>
-    <div class="w-100 h-100 d-flex">
-        <div v-for="item in cards" v-bind:key="item.id" class="w-100 h-100">
-            <div class="mame-card" v-on:click="selectCard(item)">
+    <div class="w-100 h-100 d-flex justify-content-between">
+        <div
+            v-for="item in cards"
+            v-bind:key="item.id"
+            class="mame-card-wrap d-flex"
+        >
+            <label :for="'mame-card-' + item.id">
+                <input
+                    type="radio"
+                    :id="'mame-card-' + item.id"
+                    name="mame-card-group"
+                />
                 <div
-                    class="card-style card-front is-active"
-                    v-bind:style="{
-                        'background-image': 'url(' + item.image + ')',
-                    }"
-                ></div>
-                <div class="card-style card-back"></div>
-            </div>
+                    class="mame-card"
+                    v-on:click="selectCard(item)"
+                    :id="'mame-card-' + item.id"
+                >
+                    <div
+                        class="card-style card-front is-active"
+                        v-bind:style="{
+                            'background-image': 'url(' + item.image + ')',
+                        }"
+                    ></div>
+                    <div class="card-style card-back"></div>
+                </div>
+            </label>
         </div>
     </div>
 </template>
@@ -141,14 +156,33 @@ $card-transition-delay-time: 1s;
     }
 }
 
+input[type="radio"] {
+    display: none;
+    // position: absolute;
+    // bottom: -20px;
+    &:checked + .mame-card .card-front {
+        position: absolute;
+        border: 1px solid #ff91fa;
+        // box-shadow: 0 0 0 5px #ffee8b9d;
+        box-shadow: 0 0 5px 5px #ff91faa8;
+        filter: drop-shadow(6px 7px 4px rgba(0, 0, 0, 0.3));
+        width: 110%;
+        height: 110%;
+        top: -30px;
+    }
+}
+.mame-card-wrap {
+    width: 120px;
+
+    height: 180px;
+}
 .mame-card {
     width: 120px;
     height: 180px;
     border-radius: 10px;
     animation: rotate-inverse $card-transition-time $card-transition-delay-time
         linear both;
-    width: 120px;
-    height: 180px;
+
     position: absolute;
     perspective: 75rem;
     transform-style: preserve-3d;
