@@ -1,5 +1,5 @@
 <template>
-    <div class="w-100 h-100 d-flex justify-content-between">
+    <div class="w-100 h-100 d-flex justify-content-around">
         <div
             v-for="item in cards"
             v-bind:key="item.id"
@@ -173,7 +173,6 @@ input[type="radio"] {
 }
 .mame-card-wrap {
     width: 120px;
-
     height: 180px;
 }
 .mame-card {
