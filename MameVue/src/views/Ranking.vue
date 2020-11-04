@@ -93,65 +93,6 @@ import MameLine from "../components/Game/MameLine.vue";
 import GameRanking from "../components/Ranking/GameRanking.vue";
 import MissionCard from "../components/Game/MissionCard.vue";
 
-function signalRConnection(vm) {
-    var connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://mametopple.azurewebsites.net/mamehub", {
-            // .withUrl("https://localhost:44324/mamehub", {
-            skipNegotiation: true,
-            transport: signalR.HttpTransportType.WebSockets,
-        })
-        .build();
-    connection.serverTimeoutInMilliseconds = 1200000;
-
-    connection
-        .start()
-        .then(() => {
-            vm.signalRConnectionInstance = connection;
-        })
-        .catch(function (err) {
-            console.error(err.toString());
-        });
-}
-
-// import signalR from '../@microsoft/signalr';
-const signalR = require("@microsoft/signalr");
-
-var connection = new signalR.HubConnectionBuilder()
-    .withUrl("https://localhost:44324/mamehub", {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets,
-    })
-    .build();
-console.log(connection);
-// let _missionDolls = null;
-// connection
-//     .start()
-//     .then(() => {
-//         connection.invoke('GetMission');
-
-//         connection.on('GetMission', function(missionDolls) {
-//             console.log(`${JSON.stringify(missionDolls)}`);
-//             _missionDolls = missionDolls;
-//             Binding();
-//             // dollsTower = JSON.stringify(dollsTower);
-//         });
-//     })
-//     .catch(function(err) {
-//         console.error(err.toString());
-//     });
-// //#endregion signalR
-// // console.log(`${JSON.stringify(_dollsTower)}`);
-
-// var MissionDollsVM;
-// function Binding() {
-//     MissionDollsVM = new Vue({
-//         el: '.mission-card',
-//         data: {
-//             items: _missionDolls,
-//         },
-//     });
-// }
-
 export default {
     name: "Ranking",
     data() {

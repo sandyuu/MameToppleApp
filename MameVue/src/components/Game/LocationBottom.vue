@@ -80,23 +80,6 @@ export default {
         ChooseDolls: function (cardName) {
             this.$emit("BottomChooseDolls", cardName);
         },
-        // GetMissionDolls: function () {
-        //     // console.log("1233");
-
-        //     let vm = this;
-        //     console.log(this.SignalRConnectionData);
-
-        //     console.dir(vm);
-
-        //     this.SignalRConnectionData.invoke("GetMission");
-        //     this.SignalRConnectionData.on("GetMission", function (
-        //         mission_dolls
-        //     ) {
-        //         vm.MissionDolls = mission_dolls;
-        //         getDolls(vm.MissionDolls);
-        //         this.off("GetMission", null);
-        //     });
-        // },
     },
 };
 </script>

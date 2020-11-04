@@ -107,31 +107,25 @@ function getDolls(dolls) {
             console.log(`${prop}: ${dolls[prop]}`); //person[prop] 相當於 person['Name']
         }
     }
-    console.log(`${str} | 一共 ${counts} 只 goma`);
+    // console.log(`${str} | 一共 ${counts} 只 goma`);
 }
 
 export default {
     props: ["MissionDolls", "signalRConnection"],
-    watch: {
-        isConnected() {
-            console.log("成功");
-            if (this.isConnected) {
-                this.GetMissionDolls();
-            }
-        },
-    },
     computed: {
         isConnected() {
             // if (this.signalRConnection.constructor.name === "HubConnection") {
-            if (this.signalRConnection.connectionState == "Connected") {
+            if (this.signalRConnection !== undefined) {
                 console.log(this.signalRConnection);
+                this.GetMissionDolls();
                 return true;
             }
             return false;
         },
     },
     created() {
-        console.log(this.signalRConnection.constructor.name);
+        console.log(this.signalRConnection);
+        this.GetMissionDolls();
     },
 
     data() {
@@ -157,6 +151,8 @@ export default {
             this.signalRConnection.invoke("GetMission");
             this.signalRConnection.on("GetMission", function (mission_dolls) {
                 getDolls(mission_dolls);
+                console.log("娃娃");
+
                 this.off("GetMission", null);
                 vm.$emit("GetMissionDolls", mission_dolls);
             });

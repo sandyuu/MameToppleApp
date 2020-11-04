@@ -27,6 +27,8 @@
 
 <script>
 // @ is an alias to /src
+import { CONFIG } from "@/config.js";
+
 // import HelloWorld from '@/components/HelloWorld.vue'
 // import { LoginPageService } from "../services/LoginPageService";
 const signalR = require("@microsoft/signalr");
@@ -36,32 +38,26 @@ export default {
     data() {
         return {
             players: [],
+            signalRConnection: {},
         };
     },
     watch: {
-        ready() {
-            if (this.players.length >= 2) {
-                this.gameStart(this);
-            }
-        },
+        // players() {
+        //     this.getUserAccount();
+        // },
     },
-    components: {
-        // HelloWorld
+    components: {},
+    activated() {},
+    created() {
+        this.getUserAccount();
     },
     methods: {
-        // getUserAllInfo: async function () {
-        //   var getUserAllInfo = await LoginPageService.getUserAllInfo();
-        //   console.log("getUserAllInfo");
-        //   console.log(getUserAllInfo);
-        //   console.log(getUserAllInfo.data.nickName);
-        //   this.items[0].name = getUserAllInfo.data.nickName;
-        // },
         getUserAccount: async function () {
-            var self = this;
+            var vm = this;
             var getUserAccount = sessionStorage.getItem("account");
 
             var connection = new signalR.HubConnectionBuilder()
-                .withUrl("https://mametopple.azurewebsites.net/mamehub", {
+                .withUrl(CONFIG.API_URL + "/mamehub", {
                     skipNegotiation: true,
                     transport: signalR.HttpTransportType.WebSockets,
                 })
@@ -72,59 +68,31 @@ export default {
                 .start()
                 .then(() => {
                     console.log("連線成功");
-                    // getUserAccount()
-                    // console.log("joinName");
-                    // console.log(joinName);
-                    console.log(connection);
-                    console.log(getUserAccount);
                     connection.invoke("PlayerJoin", getUserAccount);
 
                     connection.on("SomeOneJoin", function (players) {
-                        self.players = players;
-
-                        console.log(self.players.length);
-                        if (self.players.length >= 2) {
-                            console.log("ssssssssssssssssssssssssss");
-
-                            self.gameStart(this);
-                        }
-                        console.log("SomeOneJoin");
-                        console.log("players");
-                        console.log(players);
-
-                        // console.log(JSON.stringify(gameStartObj));
+                        vm.players = players;
                     });
+                    connection.on("GameStart", vm.gameStart);
                 })
                 .catch(function (err) {
                     console.error(err.toString());
                 });
 
-            //test
+            this.signalRConnection = connection;
         },
-        gameStart: function (connection) {
-            var vm = this;
-            // vm.$router.push("Game");
-            // console.log(vm);
+        gameStart: function () {
+            let vm = this;
+            // console.log(vm.players);
 
-            console.log("ready");
-
-            connection.on("GameStart", function () {
-                connection.invoke("GetMyInfo");
-
-                connection.on("GetMyInfo", function (MyInfo) {
-                    console.log(vm);
-
-                    console.log("MyInfo");
-                    console.log(MyInfo);
-                    console.log();
-
-                    vm.$router.push("Game");
-                });
+            vm.$router.push({
+                name: "Game",
+                params: {
+                    players: vm.players,
+                    signalRConnection: vm.signalRConnection,
+                },
             });
         },
-    },
-    beforeMount() {
-        this.getUserAccount();
     },
 };
 </script>

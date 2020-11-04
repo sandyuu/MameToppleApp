@@ -13,7 +13,7 @@
                 />
                 <div
                     class="mame-card"
-                    v-on:click="selectCard(item)"
+                    v-on:click="selectCard(item.name)"
                     :id="'mame-card-' + item.id"
                 >
                     <div
@@ -30,9 +30,10 @@
 </template>
 
 <script>
+// let cardName;
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
-let _newdolls = null;
+let _newdolls = "";
 function getDolls(dolls) {
     if (dolls == null) {
         return;
@@ -57,6 +58,46 @@ function getDolls(dolls) {
 
 export default {
     props: ["cards", "signalRConnection", "MissionDolls", "dolls"],
+    watch: {
+        // cardName: function showCardName() {
+        //     console.log("ya");
+        //     console.log(this.cardName);
+        // },
+    },
+    mounted() {
+        var vm = this;
+        this.signalRConnection.on("CardUsedResult", function (
+            new_dolls,
+            cardName
+        ) {
+            // vm.dolls = new_dolls;
+            if (cardName == "Discard") {
+                console.log("來watch");
+                console.log("某某人用了" + cardName);
+                _newdolls = new_dolls;
+
+                // vm.off("CardUsedResult", null);
+                console.log("要dis了");
+
+                vm.$emit("CardDisDolls", _newdolls, cardName);
+            }
+        });
+        this.signalRConnection.on("UseCard", function (new_dolls, cardName) {
+            console.log("來watch UseCard");
+            console.log("某某人用了" + cardName);
+            // vm.dolls = new_dolls;
+
+            if (
+                cardName == "UpOne" ||
+                cardName == "UpTwo" ||
+                cardName == "UpThree" ||
+                cardName == "DropDown"
+            ) {
+                // vm.off("CardUsedResult", null);
+                vm.$emit("CardChooseDolls", cardName);
+            }
+        });
+    },
     created() {
         // let vm = this;
         this.newdolls = this.dolls;
@@ -67,17 +108,15 @@ export default {
         return {
             // userName: "",
             items: [],
+            cardName: "",
         };
     },
 
-    components: {
-        // HelloWorld
-    },
+    components: {},
     methods: {
-        selectCard: function (item) {
-            let cardName;
+        selectCard: function (SelectedCardName) {
             let vm = this;
-            cardName = item.name;
+            this.cardName = SelectedCardName;
             // console.log(`列出全部 ${JSON.stringify(this.cards)}`);
             // console.log(`before DOLLS`);
             if (this.dolls.length == 0) {
@@ -89,33 +128,31 @@ export default {
 
             // getDolls(_newdolls);
 
-            console.log(`現在使用 ${cardName} 卡片`);
+            console.log(`現在使用 ${this.cardName} 卡片`);
             console.log(this.signalRConnection);
 
             // console.log(`card conn ${this.signalRConnection}`);
-            this.signalRConnection.invoke("UseCard", vm.dolls, cardName);
+            this.signalRConnection.invoke("UseCard", vm.dolls, this.cardName);
             // this.signalRConnection.off("UseCard", null);
 
-            this.signalRConnection.on("UseCard", function (new_dolls) {
-                if (cardName == "Discard") {
-                    _newdolls = new_dolls;
+            // this.signalRConnection.on("UseCard", function (new_dolls) {
+            //     if (this.cardName == "Discard") {
+            //         _newdolls = new_dolls;
 
-                    this.off("UseCard", null);
-                    vm.$emit("CardDisDolls", _newdolls, cardName);
-                }
-                if (cardName == "DropDown") {
-                    this.off("UseCard", null);
-                    vm.$emit("CardChooseDolls", cardName);
-                }
-                if (
-                    cardName == "UpOne" ||
-                    cardName == "UpTwo" ||
-                    cardName == "UpThree"
-                ) {
-                    this.off("UseCard", null);
-                    vm.$emit("CardChooseDolls", cardName);
-                }
-            });
+            //         this.off("UseCard", null);
+            //         vm.$emit("CardDisDolls", _newdolls, this.cardName);
+            //     }
+
+            //     if (
+            //         this.cardName == "UpOne" ||
+            //         this.cardName == "UpTwo" ||
+            //         this.cardName == "UpThree" ||
+            //         this.cardName == "DropDown"
+            //     ) {
+            //         this.off("UseCard", null);
+            //         vm.$emit("CardChooseDolls", this.cardName);
+            //     }
+            // });
 
             // this.$nextTick(function () {
             //     console.log("離開後");

@@ -98,38 +98,41 @@ export default {
             this.signalRConnection.invoke("DollChosen", selected_doll);
 
             // this.signalRConnection.off("DollChosen", null);
-            this.signalRConnection.on("DollChosen", function (new_dolls) {
+            this.signalRConnection.on("CardUsedResult", function (
+                new_dolls,
+                cardName
+            ) {
                 if (
                     vm.cardName == "UpOne" ||
                     vm.cardName == "UpTwo" ||
                     vm.cardName == "UpThree"
                 ) {
-                    console.log(
-                        `準備 ${vm.cardName}，我想將編號 ${selected_doll.id} 向左移動`
-                    );
-                    console.log("before");
-                    getDolls(vm.dolls);
+                    // console.log(
+                    //     `準備 ${vm.cardName}，我想將編號 ${selected_doll.id} 向左移動`
+                    // );
+                    // console.log("before");
+                    // getDolls(vm.dolls);
 
-                    console.log("_after");
-                    getDolls(new_dolls);
-                    console.log(`準備回傳卡片名 ${vm.cardName}`);
-                    this.off("DollChosen", null);
+                    // console.log("_after");
+                    // getDolls(new_dolls);
+                    // console.log(`準備回傳卡片名 ${vm.cardName}`);
+                    this.off("CardUsedResult", null);
 
                     vm.$emit("MameLineMoveDolls", new_dolls, vm.cardName);
                 }
 
                 if (vm.cardName == "DropDown") {
-                    console.log(
-                        `準備DropDown，我想移動編號 ${selected_doll.id} 到最右邊`
-                    );
-                    console.log("before");
-                    getDolls(vm.dolls);
-                    // console.log(`現在使用 ${this.cardName} 卡片`);
+                    // console.log(
+                    //     `準備DropDown，我想移動編號 ${selected_doll.id} 到最右邊`
+                    // );
+                    // console.log("before");
+                    // getDolls(vm.dolls);
+                    // // console.log(`現在使用 ${this.cardName} 卡片`);
 
-                    console.log("_after");
-                    getDolls(new_dolls);
-                    console.log(`準備回傳卡片名 ${vm.cardName}`);
-                    this.off("DollChosen", null);
+                    // console.log("_after");
+                    // getDolls(new_dolls);
+                    // console.log(`準備回傳卡片名 ${vm.cardName}`);
+                    this.off("CardUsedResult", null);
 
                     vm.$emit("MameLineDropDownDolls", new_dolls, vm.cardName);
                 }

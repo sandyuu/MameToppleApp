@@ -136,8 +136,8 @@ export default {
     data() {
         return {
             userName: "",
-            account: "string",
-            password: "string",
+            account: "Mamegoma",
+            password: "123456",
             registeraccount: "",
             registerpassword: "",
             registernickname: "",
@@ -187,19 +187,35 @@ export default {
                 lose: 0,
             };
             var registerRes = await LoginPageService.register(payload);
-            console.log("registerRes");
+
             console.log(registerRes);
+
+            if (registerRes.status == 200) {
+                this.hideModal();
+                this.$refs["my-modal"].hide();
+                this.toggle = !this.toggle; //開始按鈕的顯示//如果登入成功開始按鈕就會顯示
+
+                this.$swal.fire({
+                    title: "註冊成功",
+                    // timer: 10000,
+                    text: "一起來玩桌游吧",
+                    imageUrl: require("@/assets/images/game-start.png"),
+
+                    // imageUrl: "../../src/assets/images/game-start.png",
+                    imageAlt: "相親相愛的小海豹",
+                });
+            }
         },
         showModal() {
             this.$refs["my-modal"].show();
         },
         start() {
-            this.$router.push("Game");
-            //   this.$router.push("Waiting");
+            // this.$router.push("Game");
+            this.$router.push("Waiting");
         },
-        // hideModal() {
-        //   this.$refs["my-modal"].hide();
-        // },
+        hideModal() {
+            this.$refs["my-modal"].hide();
+        },
     },
     mounted() {
         this.showModal();

@@ -18,11 +18,9 @@
                             <MameLine
                                 v-bind:dolls="dollsTowerData"
                                 v-bind:cardName="cardName"
-                                v-bind:signalRConnection="
-                                    signalRConnectionInstance
-                                "
-                                v-on:MameLineDropDownDolls="DropDownDolls"
-                                v-on:MameLineMoveDolls="MoveDolls"
+                                v-bind:signalRConnection="signalRConnection"
+                                v-on:MameLineDropDownDolls="UpdateDolls"
+                                v-on:MameLineMoveDolls="UpdateDolls"
                             />
                         </div>
 
@@ -30,11 +28,9 @@
                             <!-- #region 玩家1區域 -->
                             <LocationBottom
                                 v-bind:cards="cardsData"
-                                v-bind:signalRConnection="
-                                    signalRConnectionInstance
-                                "
+                                v-bind:signalRConnection="signalRConnection"
                                 v-bind:dolls="dollsTowerData"
-                                v-on:BottomDisDolls="DisDolls"
+                                v-on:BottomDisDolls="UpdateDolls"
                                 v-on:BottomChooseDolls="ChooseDolls"
                             />
                             <!-- #endregion 玩家1區域 -->
@@ -55,6 +51,8 @@
 import LocationTop from "../components/Game/LocationTop.vue";
 import LocationBottom from "../components/Game/LocationBottom.vue";
 import MameLine from "../components/Game/MameLine.vue";
+import GLOBALCONFIG from "@/config.js";
+import { CONFIG } from "../config";
 
 function getDolls(dolls) {
     var str = "";
@@ -80,52 +78,44 @@ const signalR = require("@microsoft/signalr");
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
 
-function signalRConnection(vm) {
-    var connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://mametopple.azurewebsites.net/mamehub", {
-            // .withUrl("https://localhost:44324/mamehub", {
-            skipNegotiation: true,
-            transport: signalR.HttpTransportType.WebSockets,
-        })
-        .build();
-    connection.serverTimeoutInMilliseconds = 1200000;
-
-    connection
-        .start()
-        .then(() => {
-            connection.invoke("GetDollsTower");
-            connection.on("GetDollsTower", function (dollsTower) {
-                vm.dollsTowerData = dollsTower;
-            });
-
-            connection.invoke("GetCards");
-
-            connection.on("GetCards", function (cards) {
-                vm.cardsData = cards;
-            });
-
-            vm.signalRConnectionInstance = connection;
-        })
-        .catch(function (err) {
-            console.error(err.toString());
-        });
-}
 //#endregion signalR
 
 export default {
     name: "MyGame",
-    created() {
-        let vm = this;
-        // console.log(vm);
-        signalRConnection(vm);
-    },
+    // props: ["players", "signalRConnection"],
     data() {
         return {
             dollsTowerData: [],
             cardsData: [],
             cardName: [],
-            signalRConnectionInstance: {},
+            players: this.$route.params.players,
+            signalRConnection: this.$route.params.signalRConnection,
+            //signalRConnectionInstance: {},
         };
+    },
+    watch: {
+        // cardsData: function UpdateDollsTower() {
+        //     if (this.isConnected) {
+        //     }
+        // },
+    },
+    computed: {
+        isConnected() {
+            if (this.signalRConnection.state == "Connected") {
+                return true;
+            }
+            return false;
+        },
+    },
+    created() {
+        let vm = this;
+        this.GetDollTower();
+        this.signalRConnection.invoke("GetCards");
+
+        this.signalRConnection.on("GetCards", function (cards) {
+            vm.cardsData = cards;
+        });
+        this.GetDollTower();
     },
     components: {
         LocationTop,
@@ -133,29 +123,44 @@ export default {
         MameLine,
     },
     methods: {
-        DropDownDolls: function (dolls, cardName) {
+        GetDollTower: function () {
+            var vm = this;
+            this.signalRConnection.invoke("GetDollsTower");
+            this.signalRConnection.on("GetDollsTower", function (dollsTower) {
+                // console.log(this);
+
+                vm.dollsTowerData = dollsTower;
+            });
+        },
+
+        UpdateDolls: function (dolls, cardName) {
             this.dollsTowerData = dolls;
             this.RemoveTheCard(cardName);
-            // this.cardName = "";
-            this.cardName = "";
-
-            // getDolls(dolls);
-        },
-        MoveDolls: function (dolls, cardName) {
-            this.dollsTowerData = dolls;
-            this.RemoveTheCard(cardName);
-            // this.cardName = "";
-            this.cardName = "";
-
-            // getDolls(dolls);
-        },
-        DisDolls: function (dolls, cardName) {
-            this.dollsTowerData = dolls;
-
-            this.RemoveTheCard(cardName);
-
             this.cardName = "";
         },
+        // DropDownDolls: function (dolls, cardName) {
+        //     this.dollsTowerData = dolls;
+        //     this.RemoveTheCard(cardName);
+        //     // this.cardName = "";
+        //     this.cardName = "";
+
+        //     // getDolls(dolls);
+        // },
+        // MoveDolls: function (dolls, cardName) {
+        //     this.dollsTowerData = dolls;
+        //     this.RemoveTheCard(cardName);
+        //     // this.cardName = "";
+        //     this.cardName = "";
+
+        //     // getDolls(dolls);
+        // },
+        // DisDolls: function (dolls, cardName) {
+        //     this.dollsTowerData = dolls;
+
+        //     this.RemoveTheCard(cardName);
+
+        //     this.cardName = "";
+        // },
         ChooseDolls: function (cardName) {
             this.cardName = cardName;
             // console.log(`現在使用 ${this.cardName} 卡片`);
